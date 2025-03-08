@@ -12,6 +12,10 @@ const EventSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    city: {
+        type: String,
+        required: true,
+    },
     location: {
         type: String,
         required: true,
@@ -23,8 +27,9 @@ const EventSchema = new mongoose.Schema({
     maxseats: {
         type: Number,
         default: 100,
-    }
-},{
-    timestamps:true,
-})
+    },
+},
+    {
+        timestamps: true,
+    })
 module.exports = mongoose.model("Event", EventSchema)
