@@ -11,7 +11,7 @@ const connection = async()=>{
         console.error(error);
     }
 }
-
+connection();
 app.listen(port,() =>{
 console.log(`server is running on port ${port}`)
 })
