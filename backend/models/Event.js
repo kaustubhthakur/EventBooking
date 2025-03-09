@@ -28,8 +28,12 @@ const EventSchema = new mongoose.Schema({
         type: Number,
         default: 100,
     },
+    rating: {
+        type: Number,
+        default: 0,
+    }
 },
-    {
+{
         timestamps: true,
-    })
+})
 module.exports = mongoose.model("Event", EventSchema)
