@@ -18,7 +18,7 @@ const connection = async () => {
     }
 }
 connection();
-
+app.use('/events',eventrouter)
 app.listen(port, () => {
     console.log(`server is running on port ${port}`)
 })

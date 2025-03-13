@@ -7,6 +7,14 @@ const getUser = async(req,res)=>{
         console.error(error);
     }
 }
+const deleteUser = async(req,res)=>{
+    try {
+        await User.findByIdAndDelete(req.params.id);
+        res.status(201).json({message:"user has been deleted..."})
+    } catch (error) {
+        console.error(error);
+    }
+}
 const getUsers = async(req,res)=>{
     try {
         const users = await User.find();
@@ -15,4 +23,4 @@ const getUsers = async(req,res)=>{
         console.error(error);
     }
 }
-module.exports = {getUser,getUsers}
+module.exports = {getUser,getUsers,deleteUser}
