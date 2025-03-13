@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './Login.css';
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -57,7 +56,7 @@ const LoginPage = () => {
     setIsLoading(true);
     
     try {
-      const response = await axios.post('/api/auth/login', {
+      const response = await axios.post('https://localhost:6969/auth/login', {
         username,
         password
       });

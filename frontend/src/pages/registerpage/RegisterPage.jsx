@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './Register.css';
+
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -64,7 +64,7 @@ const RegisterPage = () => {
     setIsLoading(true);
     
     try {
-      const response = await axios.post('/api/auth/register', {
+      const response = await axios.post('https://localhost:6969/auth/register', {
         username,
         email,
         password,
@@ -78,8 +78,9 @@ const RegisterPage = () => {
         if (response.data.token) {
           localStorage.setItem('authToken', response.data.token);
         }
+        alert('registerd!')
         // Redirect to dashboard
-        navigate('/dashboard');
+        navigate('/');
       }
     } catch (error) {
       setIsLoading(false);

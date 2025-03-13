@@ -32,7 +32,7 @@ const Navbar = () => {
       const token = localStorage.getItem('authToken');
       
       // Call backend logout endpoint
-      await axios.post('/api/auth/logout', {}, {
+      await axios.post('https://localhost:6969/auth/logout', {}, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -69,18 +69,7 @@ const Navbar = () => {
           <i className={isOpen ? 'fas fa-times' : 'fas fa-bars'}></i>
         </div>
 
-        <ul className={isOpen ? 'nav-menu active' : 'nav-menu'}>
-          <li className="nav-item">
-            <a href="/" className="nav-links">Home</a>
-          </li>
-          <li className="nav-item">
-            <a href="/movies" className="nav-links">Movies</a>
-          </li>
-          <li className="nav-item">
-            <a href="/theaters" className="nav-links">Theaters</a>
-          </li>
-        </ul>
-
+       
         <div className="auth-buttons">
           {isLoggedIn ? (
             <>
@@ -90,8 +79,8 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <button className="login-button" onClick={() => navigate('/login')}>Login</button>
-              <button className="register-button" onClick={() => navigate('/register')}>Register</button>
+              <button className="login" onClick={() => navigate('/login')}>Login</button>
+              <button className="register" onClick={() => navigate('/register')}>Register</button>
             </>
           )}
         </div>
