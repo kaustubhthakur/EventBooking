@@ -1,82 +1,95 @@
-import Room from "../models/Room.js";
-import Hotel from "../models/Hotel.js";
-import { createError } from "../utils/error.js";
+const Seat = require('../models/Seat')
+const Event = require('../models/Event')
 
-export const createRoom = async (req, res, next) => {
-    const hotelId = req.params.hotelid;
-    const newRoom = new Room(req.body);
+const createSeat = async (req, res, next) => {
+    const eventId = req.params.id;
+    const newSeat = new Seat(req.body);
 
     try {
-        const savedRoom = await newRoom.save();
+        const savedSeat = await newSeat.save();
         try {
-            await Hotel.findByIdAndUpdate(hotelId, {
-                $push: { rooms: savedRoom._id },
+            await Event.findByIdAndUpdate(eventId, {
+                $push: { seats: savedSeat._id },
             });
         } catch (err) {
             next(err);
         }
-        res.status(200).json(savedRoom);
+        res.status(200).json(savedSeat);
     } catch (err) {
         next(err);
     }
 };
 
-export const updateRoom = async (req, res, next) => {
+const updateSeat = async (req, res, next) => {
     try {
-        const updatedRoom = await Room.findByIdAndUpdate(
+        const updatedSeat = await Seat.findByIdAndUpdate(
             req.params.id,
             { $set: req.body },
             { new: true }
         );
-        res.status(200).json(updatedRoom);
+        res.status(200).json(updatedSeat);
     } catch (err) {
         next(err);
     }
 };
-export const updateRoomAvailability = async (req, res, next) => {
+
+const updateSeatAvailability = async (req, res, next) => {
     try {
-        await Room.updateOne(
-            { "roomNumbers._id": req.params.id },
-            {
-                $push: {
-                    "roomNumbers.$.unavailableDates": req.body.dates
-                },
-            }
+        const updatedSeat = await Seat.findByIdAndUpdate(
+            req.params.id,
+            { isBooked: req.body.isBooked },
+            { new: true }
         );
-        res.status(200).json("Room status has been updated.");
+        res.status(200).json({
+            success: true,
+            message: "Seat booking status has been updated.",
+            seat: updatedSeat
+        });
     } catch (err) {
         next(err);
     }
 };
-export const deleteRoom = async (req, res, next) => {
-    const hotelId = req.params.hotelid;
+
+const deleteSeat = async (req, res, next) => {
+    const eventId = req.params.eventid;
     try {
-        await Room.findByIdAndDelete(req.params.id);
+        await Seat.findByIdAndDelete(req.params.id);
         try {
-            await Hotel.findByIdAndUpdate(hotelId, {
-                $pull: { rooms: req.params.id },
+            await Event.findByIdAndUpdate(eventId, {
+                $pull: { seats: req.params.id },
             });
         } catch (err) {
             next(err);
         }
-        res.status(200).json("Room has been deleted.");
+        res.status(200).json("Seat has been deleted.");
     } catch (err) {
         next(err);
     }
 };
-export const getRoom = async (req, res, next) => {
+
+const getSeat = async (req, res, next) => {
     try {
-        const room = await Room.findById(req.params.id);
-        res.status(200).json(room);
+        const seat = await Seat.findById(req.params.id);
+        res.status(200).json(seat);
     } catch (err) {
         next(err);
     }
 };
-export const getRooms = async (req, res, next) => {
+
+const getSeats = async (req, res, next) => {
     try {
-        const rooms = await Room.find();
-        res.status(200).json(rooms);
+        const seats = await Seat.find();
+        res.status(200).json(seats);
     } catch (err) {
         next(err);
     }
+};
+
+module.exports = {
+    createSeat,
+    updateSeat,
+    updateSeatAvailability,
+    deleteSeat,
+    getSeat,
+    getSeats
 };
